@@ -264,14 +264,15 @@ estLODR <- function(exDat,kind = "ERCC", prob=0.9){
     
     ## create inset table
     my_table <- tableGrob(d=annoTable,
-                          show.rownames=FALSE,
-                          gpar.coretext =gpar(fontsize=14),
-                          gpar.coltext=gpar(fontsize=14),
-                          gpar.rowtext=gpar(fontsize=14),
-                          gpar.corefill = gpar(fill = "grey85", col = "white"), 
-                          gpar.rowfill = gpar(fill = "grey80", col = "white"),
-                          gpar.colfill = gpar(fill = "grey80", col = "white"))
-    
+                         # show.rownames=FALSE,
+                          rows=NULL
+                         # gpar.coretext =gpar(fontsize=14),
+                      #    gpar.coltext=gpar(fontsize=14),
+                      #    gpar.rowtext=gpar(fontsize=14),
+                      #    gpar.corefill = gpar(fill = "grey85", col = "white"), 
+                      #    gpar.rowfill = gpar(fill = "grey80", col = "white"),
+                      #    gpar.colfill = gpar(fill = "grey80", col = "white"))
+                        )
     # Appease R CMD Check
     MnSignal <- Pval <- Ratio <- xend <- yend <- NULL
     
