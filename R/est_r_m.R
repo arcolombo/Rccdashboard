@@ -54,11 +54,11 @@ est_r_m <- function(exDat){
                                                  1:(ncol(dat)/2)),sep="")
     }#columns are even and can be divided by 2
 
-   if(ncol(dat)%%2==1) {
+   if(ncol(dat)%%2!=0) {
   sample1Ln<-length(which(exDat$designMat$Sample==exDat$sampleNames[1]))
   sample2Ln<-length(which(exDat$designMat$Sample==exDat$sampleNames[2]))
-
-     newColNameVector<- c(paste(rep(exDat$sample1,sample1Ln),1:sample1Ln,sep=""), paste(rep(exDat$sample2,sample2Ln),1:sample2Ln,sep=""))
+  
+     newColNameVector<- c(paste(rep(exDat$sampleNames[1],sample1Ln),1:sample1Ln,sep=""), paste(rep(exDat$sampleNames[2],sample2Ln),1:sample2Ln,sep=""))
      colnames(dat)<-newColNameVector  
 
    } #columns are odd, and sample1 length neq sample2 lengths
@@ -79,7 +79,13 @@ est_r_m <- function(exDat){
     ERCC<-rownames(dat[substr(rownames(dat),1,5)=="ERCC-",])
     
     ## Specify Sample (A or B)
+    if(ncol(dat)%%2==0) {
     trt<-rep(1:2,each=ncol(dat)/2)
+    }
+
+    if(ncol(dat)%%2!=0) {
+    trt<-c(rep(1,sample1Ln),rep(2,sample2Ln))
+     }
     design.list<-list(trt,rep(1,ncol(dat)))
     
     ## Compute offset (e.g. total counts, 75% quantile, TMM, etc) could modify
