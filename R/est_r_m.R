@@ -46,10 +46,22 @@ est_r_m <- function(exDat){
     Features = make.names(dat$Feature,unique=TRUE)
     Features = gsub(".","-", Features, fixed = TRUE)
     rownames(dat)<-Features; dat<-as.matrix(dat[,-1])
-    
+    #sample1Name is stored under exDat$sampleInfo
+
+    if(ncol(dat)%%2==0){
     colnames(dat)<-paste(rep(c(exDat$sample1,exDat$sample2),
                              each=ncol(dat)/2),c(1:(ncol(dat)/2),
                                                  1:(ncol(dat)/2)),sep="")
+    }#columns are even and can be divided by 2
+
+   if(ncol(dat)%%2==1) {
+  sample1Ln<-length(which(exDat$designMat$Sample==exDat$sampleNames[1]))
+  sample2Ln<-length(which(exDat$designMat$Sample==exDat$sampleNames[2]))
+
+     newColNameVector<- c(paste(rep(exDat$sample1,sample1Ln),1:sample1Ln,sep=""), paste(rep(exDat$sample2,sample2Ln),1:sample2Ln,sep=""))
+     colnames(dat)<-newColNameVector  
+
+   } #columns are odd, and sample1 length neq sample2 lengths
     
     if (sampleInfo$isNorm == TRUE){
         cat("\nData is normalized, no r_m estimation\n")
