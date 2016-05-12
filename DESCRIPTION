@@ -1,4 +1,4 @@
-Package: erccdashboard
+Package: Rccdashboard
 Type: Package
 Title: Assess Differential Gene Expression Experiments with ERCC
     Controls
