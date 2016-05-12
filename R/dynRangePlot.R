@@ -16,7 +16,7 @@
 #' exDat <- dynRangePlot(exDat)
 #' 
 #' exDat$Figures$dynRangePlot
-#' 
+#' @import reshape2
 #' @export
 dynRangePlot <- function(exDat){
     
@@ -120,9 +120,28 @@ dynRangePlot <- function(exDat){
     Adat <- subset(AandB, Sample == sampleNames[1])
     Bdat <- subset(AandB, Sample == sampleNames[2])
     
-    # Log the data and then filter out NA and Inf Mn and Sd values
+    # Log the data, filtering out NA and Inf data is un-courteous to the user, instead switch to a arc-sinh scale so that these values go to 0.  dynRangePlot is a visual tool, and the exact value data is OK to be inexact. Not filtering out NA and Inf Mn and Sd values
+    if(!any(is.infinite(log2(Adat$value)))=="TRUE" && !any(is.infinite(log2(Bdat$value)  )=="TRUE") && !any(is.na(log2(Adat$value)))=="TRUE" && !any(is.na(log2(Bdat$value))=="TRUE")  ) {    
     Adat$value <- log2(Adat$value)
+    Bdat$value <- log2(Bdat$value)
+    }
+    if(any(is.infinite(log2(Adat$value)))=="TRUE" || any(is.infinite(log2(Bdat$value)))=="TRUE" || any(is.na(log2(Adat$value)))=="TRUE" || any(is.na(log2(Bdat$value))=="TRUE")    )    {
+    Adat$value<-asinh(Adat$value+0.001)
+    Bdat$value<-asinh(Bdat$value+0.001)
+     }
+
+      if(!any(is.infinite(log2(Adat$Conc)))=="TRUE" && !any(is.infinite(log2(Bdat$Conc))=="TRUE") && !any(is.na(log2(Adat$Conc)))=="TRUE" && !any(is.na(log2(Bdat$Conc))=="TRUE")   ) { 
     Adat$Conc <- log2(Adat$Conc)
+    Bdat$Conc <- log2(Bdat$Conc)
+    }
+   
+   if(any(is.infinite(log2(Adat$Conc)))=="TRUE" || any(is.infinite(log2(Bdat$Conc)))=="TRUE" ||  any(is.na(log2(Adat$Conc)))=="TRUE" || any(is.na(log2(Bdat$Conc))=="TRUE")       )    {
+    Adat$Conc<-asinh(Adat$Conc+0.001)
+    Bdat$Conc<-asinh(Bdat$Conc+0.001)
+    }
+
+
+  
     
     AdatAve <- data.frame(tapply(Adat$value, Adat[,"Feature"], mean))
     AdatSD <- as.vector(tapply(Adat$value, Adat[,"Feature"], sd))
@@ -137,8 +156,10 @@ dynRangePlot <- function(exDat){
     
     AdatAveSD$value.SD <- AdatSD
     
-    Bdat$value <- log2(Bdat$value)
-    Bdat$Conc <- log2(Bdat$Conc)
+   # Log the data and then filter out NA and Inf Mn and Sd values
+   
+   # Bdat$value <- log2(Bdat$value)
+   # Bdat$Conc <- log2(Bdat$Conc)
     
     BdatAve <- data.frame(tapply(Bdat$value, Bdat[,"Feature"], mean))
     BdatSD <- as.vector(tapply(Bdat$value, Bdat[,"Feature"], sd))
