@@ -26,6 +26,5 @@ exDat <- est_r_m(exDat)
 exDat <- dynRangePlot(exDat)
 
 exDat$Figures$dynRangePlot
-
 }
 
