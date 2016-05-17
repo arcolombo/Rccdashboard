@@ -125,7 +125,8 @@ dynRangePlot <- function(exDat){
     Adat$value <- log2(Adat$value)
     Bdat$value <- log2(Bdat$value)
     }
-    if(any(is.infinite(log2(Adat$value)))=="TRUE" || any(is.infinite(log2(Bdat$value)))=="TRUE" || any(is.na(log2(Adat$value)))=="TRUE" || any(is.na(log2(Bdat$value))=="TRUE")    )    {
+   # if(any(is.infinite(log2(Adat$value)))=="TRUE" || any(is.infinite(log2(Bdat$value)))=="TRUE" || any(is.na(log2(Adat$value)))=="TRUE" || any(is.na(log2(Bdat$value))=="TRUE")    )    {
+    else {
     Adat$value<-asinh(Adat$value+0.001)
     Bdat$value<-asinh(Bdat$value+0.001)
      }
@@ -135,7 +136,8 @@ dynRangePlot <- function(exDat){
     Bdat$Conc <- log2(Bdat$Conc)
     }
    
-   if(any(is.infinite(log2(Adat$Conc)))=="TRUE" || any(is.infinite(log2(Bdat$Conc)))=="TRUE" ||  any(is.na(log2(Adat$Conc)))=="TRUE" || any(is.na(log2(Bdat$Conc))=="TRUE")       )    {
+  # if(any(is.infinite(log2(Adat$Conc)))=="TRUE" || any(is.infinite(log2(Bdat$Conc)))=="TRUE" ||  any(is.na(log2(Adat$Conc)))=="TRUE" || any(is.na(log2(Bdat$Conc))=="TRUE")       )    {
+   else {
     Adat$Conc<-asinh(Adat$Conc+0.001)
     Bdat$Conc<-asinh(Bdat$Conc+0.001)
     }
